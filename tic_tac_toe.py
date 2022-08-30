@@ -6,7 +6,7 @@ game_board = {'7': ' ', '8': ' ', '9': ' ',
               '4': ' ', '5': ' ', '6': ' ',
               '1': ' ', '2': ' ', '3': ' '}
 
-# This prints the game board, using whatever value is in the key slot, with some lines for the board.  
+# This prints the game board, using whatever value is in the key slot, with some lines for the board.
 def gameView(game_board):
     print()
     print(f"{game_board['7']} | {game_board['8']} | {game_board['9']}")
@@ -17,40 +17,24 @@ def gameView(game_board):
     print()
 
 # This function checks all win conditions, and if true, prints message and changes global win status to true.
-# There is probably a better way to do this.    
 def is_win():
-    if game_board["1"] == game_board[move] and game_board["2"] == game_board[move] and game_board["3"] == game_board[move]:
+    if((game_board["1"] == game_board["2"] == game_board["3"] != ' ') or
+       (game_board["4"] == game_board["5"] == game_board["6"] != ' ') or
+       (game_board["7"] == game_board["8"] == game_board["9"] != ' ') or
+       (game_board["3"] == game_board["5"] == game_board["7"] != ' ') or
+       (game_board["1"] == game_board["5"] == game_board["9"] != ' ') or
+       (game_board["3"] == game_board["6"] == game_board["9"] != ' ') or
+       (game_board["2"] == game_board["5"] == game_board["8"] != ' ') or
+       (game_board["1"] == game_board["4"] == game_board["7"] != ' ')):
         print(f"{whose_turn} is the winner!")
         return True
-    elif game_board["4"] == game_board[move] and game_board["5"] == game_board[move] and game_board["6"] == game_board[move]:
-        print(f"{whose_turn} is the winner!")
-        return True
-    elif game_board["7"] == game_board[move] and game_board["8"] == game_board[move] and game_board["9"] == game_board[move]:
-        print(f"{whose_turn} is the winner!")
-        return True
-    elif game_board["3"] == game_board[move] and game_board["5"] == game_board[move] and game_board["7"] == game_board[move]:
-        print(f"{whose_turn} is the winner!")
-        return True
-    elif game_board["1"] == game_board[move] and game_board["5"] == game_board[move] and game_board["9"] == game_board[move]:
-        print(f"{whose_turn} is the winner!")
-        return True
-    elif game_board["3"] == game_board[move] and game_board["6"] == game_board[move] and game_board["9"] == game_board[move]:
-        print(f"{whose_turn} is the winner!")
-        return True
-    elif game_board["2"] == game_board[move] and game_board["5"] == game_board[move] and game_board["8"] == game_board[move]:
-        print(f"{whose_turn} is the winner!")
-        return True
-    elif game_board["1"] == game_board[move] and game_board["4"] == game_board[move] and game_board["7"] == game_board[move]:
-        print(f"{whose_turn} is the winner!")
-        return True
-    else:
-        return False
+    return False
 
 def check_tie(game_board):
     if ' ' not in game_board.values():
         return True
 
-# Where random.choice picks from.   
+# Where random.choice picks from.
 x_o = ["x", "o"]
 # X user wins.
 x_score = 0
@@ -70,11 +54,11 @@ whose_turn = random.choice(x_o)
 
 # Main game loop.
 while user_input != 'q':
-    
+
     if whose_turn == "x":
         # X turn, converts user integer input into string to match game dictionary.
         move = (str(input("X: Enter 1-9 on numpad to make your move: ")))
-        # If input isn't in dictionary, and the space is occupied, repeats question. 
+        # If input isn't in dictionary, and the space is occupied, repeats question.
         if move not in game_board or game_board[move] != ' ':
             continue
         # If move is valid, changes location to x or o depending on whose turn it is.
@@ -92,11 +76,9 @@ while user_input != 'q':
                 break # Ends main while loop.
             else:
                 # Resets game board, prints out fresh board.
-                game_board = {'7': ' ', '8': ' ', '9': ' ',
-            '4': ' ', '5': ' ', '6': ' ',
-            '1': ' ', '2': ' ', '3': ' '}
+                game_board = { x:' 'for x in game_board}
                 gameView(game_board)
-                
+
         tie = check_tie(game_board)
         if tie == True:
             user_input = input("This match ended in a tie! Play again?: press any key and enter to play (q to quit)")
@@ -104,9 +86,7 @@ while user_input != 'q':
                 break # Ends main while loop.
             else:
                 # Resets game board, prints out fresh board.
-                game_board = {'7': ' ', '8': ' ', '9': ' ',
-            '4': ' ', '5': ' ', '6': ' ',
-            '1': ' ', '2': ' ', '3': ' '}
+                game_board = { x:0 for x in game_board}
                 gameView(game_board)
         # Turn swaps to other player.
         whose_turn = "o"
@@ -125,9 +105,7 @@ while user_input != 'q':
             if user_input == "q":
                 break
             else:
-                game_board = {'7': ' ', '8': ' ', '9': ' ',
-            '4': ' ', '5': ' ', '6': ' ',
-            '1': ' ', '2': ' ', '3': ' '}
+                game_board = { x:' 'for x in game_board}
                 gameView(game_board)
         tie = check_tie(game_board)
         if tie == True:
@@ -136,21 +114,8 @@ while user_input != 'q':
                 break # Ends main while loop.
             else:
                 # Resets game board, prints out fresh board.
-                game_board = {'7': ' ', '8': ' ', '9': ' ',
-            '4': ' ', '5': ' ', '6': ' ',
-            '1': ' ', '2': ' ', '3': ' '}
+                game_board = { x:' 'for x in game_board}
                 gameView(game_board)
         whose_turn = "x"
-# After exiting game, print final score.            
-print(f"Final score: X:{x_score} O:{o_score}")   
-        
-    
-        
-
-            
-        
-        
-    
-
-    
-
+# After exiting game, print final score.
+print(f"Final score: X:{x_score} O:{o_score}")
