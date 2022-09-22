@@ -36,18 +36,18 @@ pastedText = str(pyperclip.paste())
 
 matches = []
 for groups in numberRegex.findall(pastedText): # Loops through matched groups in copied text
-    phoneNum = '-'.join([groups[1], groups[3], groups[5]])
-    if groups[8] != '':
+    phoneNum = '-'.join([groups[1], groups[3], groups[5]]) # Joins area code and main numbers
+    if groups[8] != '': # If there is ext, add that
         phoneNum += ' x' + groups[8]
-    matches.append(phoneNum)
-for groups in emailRegex.findall(pastedText):
+    matches.append(phoneNum) # Put combined string into list
+for groups in emailRegex.findall(pastedText): # Append all matching emails
     matches.append(groups[0])
   
 # Emails and numbers have been taken out of text. Now to copy onto clipboard.
-if len(matches) > 0:
-    pyperclip.copy('\n'.join(matches))
+if len(matches) > 0: # If emails or numbers exist
+    pyperclip.copy('\n'.join(matches)) # Join all items in matches list, via newlines
     print('Copied to clipboard: ')
-    print('\n'.join(matches))
+    print('\n'.join(matches)) # Show copied text
 else:
     print('No matches.')
 
